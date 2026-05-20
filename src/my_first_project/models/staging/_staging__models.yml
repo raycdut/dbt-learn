@@ -1,0 +1,185 @@
+version: 2
+
+models:
+  - name: stg_customer
+    description: "清洗后的客户数据 — 关联门店或自然人"
+    columns:
+      - name: customer_id
+        description: "客户ID（主键）"
+        tests: [unique, not_null]
+      - name: person_id
+        description: "自然人ID（关联 stg_person）"
+      - name: store_id
+        description: "门店ID（关联 stg_store）"
+      - name: territory_id
+        description: "销售区域ID（关联 territory 源表）"
+      - name: account_number
+        description: "客户编号"
+
+  - name: stg_store
+    description: "清洗后的门店数据"
+    columns:
+      - name: business_entity_id
+        description: "门店ID（主键）"
+        tests: [unique, not_null]
+      - name: store_name
+        description: "门店名称"
+
+  - name: stg_person
+    description: "清洗后的自然人数据 — 含全名拼接"
+    latest_version: 2
+    versions:
+      - v: 2
+        columns:
+          - name: business_entity_id
+            description: "业务实体ID（主键）"
+            tests: [unique, not_null]
+          - name: person_type_code
+            description: "人员类型代码（SC=门店客户/IN=个人客户/EM=员工/VC=供应商联系人）"
+          - name: title
+            description: "称谓（Mr./Ms.等）"
+          - name: first_name
+            description: "名"
+          - name: middle_name
+            description: "中间名"
+          - name: last_name
+            description: "姓"
+          - name: full_name
+            description: "完整姓名（CONCAT 生成）"
+      - v: 1
+        columns:
+          - name: business_entity_id
+            description: "业务实体ID（主键）"
+            tests: [unique, not_null]
+          - name: person_type
+            description: "人员类型（SC=门店客户/IN=个人客户/EM=员工/VC=供应商联系人）"
+          - name: title
+            description: "称谓（Mr./Ms.等）"
+          - name: first_name
+            description: "名"
+          - name: middle_name
+            description: "中间名"
+          - name: last_name
+            description: "姓"
+          - name: full_name
+            description: "完整姓名（CONCAT 生成）"
+
+  - name: stg_product
+    description: "清洗后的产品数据 — 含成本/价格/分类"
+    columns:
+      - name: product_id
+        description: "产品ID（主键）"
+        tests: [unique, not_null]
+      - name: product_name
+        description: "产品名称"
+      - name: product_number
+        description: "产品编号"
+      - name: color
+        description: "颜色"
+      - name: safety_stock_level
+        description: "安全库存水平"
+      - name: reorder_point
+        description: "再订购点"
+      - name: standard_cost
+        description: "标准成本"
+      - name: list_price
+        description: "标价"
+      - name: days_to_manufacture
+        description: "制造天数"
+      - name: product_line
+        description: "产品线（M=主/M=山地/R=公路/T=旅游/S=标准）"
+      - name: class
+        description: "等级（H=高/M=中/L=低）"
+      - name: style
+        description: "款式（W=女式/M=男式/U=通用）"
+      - name: product_subcategory_id
+        description: "子品类ID（关联 stg_product_subcategory）"
+      - name: product_model_id
+        description: "产品模型ID"
+      - name: sell_start_date
+        description: "销售开始日期"
+      - name: sell_end_date
+        description: "销售结束日期"
+
+  - name: stg_product_category
+    description: "清洗后的产品大类品类"
+    columns:
+      - name: product_category_id
+        description: "品类ID（主键）"
+        tests: [unique, not_null]
+      - name: category_name
+        description: "品类名称"
+
+  - name: stg_product_subcategory
+    description: "清洗后的产品子品类"
+    columns:
+      - name: product_subcategory_id
+        description: "子品类ID（主键）"
+        tests: [unique, not_null]
+      - name: product_category_id
+        description: "品类ID（关联 stg_product_category）"
+      - name: subcategory_name
+        description: "子品类名称"
+
+  - name: stg_sales_order_header
+    description: "{{ doc('stg_sales_order_header_description') }}"
+    config:
+      tags: ['core']
+    columns:
+      - name: sales_order_id
+        description: "订单ID（主键）"
+        tests: [unique, not_null]
+      - name: order_date
+        description: "订单日期"
+      - name: due_date
+        description: "应到货日期"
+      - name: ship_date
+        description: "发货日期"
+      - name: status_code
+        description: "订单状态码（1=进行中/2=已提交/3=已发货/4=已开票/5=已取消）"
+        tests:
+          - accepted_values:
+              values: [1, 2, 3, 4, 5]
+      - name: is_online_order
+        description: "是否在线订单（1=在线/0=门店）"
+      - name: customer_id
+        description: "客户ID（关联 stg_customer）"
+      - name: territory_id
+        description: "销售区域ID"
+      - name: ship_method_id
+        description: "配送方式ID"
+      - name: subtotal
+        description: "小计金额"
+      - name: tax_amt
+        description: "税额"
+      - name: freight
+        description: "运费"
+      - name: total_due
+        description: "到期应付总额"
+
+  - name: stg_sales_order_detail
+    description: "清洗后的订单明细行 — 含数量/价格/折扣"
+    columns:
+      - name: sales_order_id
+        description: "订单ID（关联 stg_sales_order_header）"
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_sales_order_header')
+                field: sales_order_id
+      - name: sales_order_detail_id
+        description: "明细行ID（主键）"
+        tests: [unique, not_null]
+      - name: order_qty
+        description: "订购数量"
+      - name: product_id
+        description: "产品ID（关联 stg_product）"
+      - name: special_offer_id
+        description: "促销ID"
+      - name: unit_price
+        description: "单价"
+      - name: unit_price_discount
+        description: "单价折扣"
+      - name: line_total
+        description: "行总额"

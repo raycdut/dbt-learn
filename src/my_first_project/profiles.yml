@@ -1,0 +1,11 @@
+my_first_project:
+  outputs:
+    dev:
+      type: duckdb
+      path: dev.duckdb
+      threads: 4
+    prod:
+      type: duckdb
+      path: prod.duckdb
+      threads: 4
+  target: dev

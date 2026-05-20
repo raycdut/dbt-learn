@@ -1,0 +1,17 @@
+version: 2
+
+exposures:
+  - name: sales_overview_dashboard
+    label: 销售总览看板
+    type: dashboard
+    url: https://looker.company.com/dashboards/sales_overview
+    description: >
+      销售核心指标看板，包含订单总量、GMV、客单价、
+      在线/线下订单占比等关键指标。数据每日更新。
+
+    depends_on:
+      - ref('fct_orders')
+
+    owner:
+      name: 销售团队
+      email: sales@company.com

@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: int_person_overview
+    description: |-
+      Person 概览 — 对 stg_person 做类型分类和名称增强。
+      
+      上游：stg_person_v1
+      
+      处理逻辑：
+      1. person_type 代码转中文标签（通过 person_type_label 宏）
+      2. 有中间名时拼接 full_name_detailed
+      3. 标识是否有中间名（has_middle_name）
+    columns:
+      - name: business_entity_id
+        description: "业务实体ID（主键）"
+        tests: [unique, not_null]
+      - name: full_name
+        description: "完整姓名（来自 stg_person）"
+      - name: person_type
+        description: "人员类型代码"
+      - name: person_type_label
+        description: "人员类型中文标签（SC=门店客户/IN=个人客户/EM=员工/VC=供应商联系人）"
+      - name: title
+        description: "称谓"
+      - name: first_name
+        description: "名"
+      - name: last_name
+        description: "姓"
+      - name: full_name_detailed
+        description: "含中间名的完整姓名（中间名不为空时拼接，否则用原 full_name）"
+      - name: has_middle_name
+        description: "是否有中间名（布尔标识）"

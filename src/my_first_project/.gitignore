@@ -1,0 +1,12 @@
+
+target/
+dbt_packages/
+logs/
+dbt_internal_packages/
+
+# macOS
+.DS_Store
+
+# DuckDB 数据库文件（二进制，每次跑都不一样）
+*.duckdb
+*.duckdb.wal

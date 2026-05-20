@@ -1,0 +1,236 @@
+version: 2
+
+sources:
+  - name: adventureworks
+    description: "AdventureWorks OLTP 源数据（通过 dbt seed 从 CSV 加载）"
+    database: dev
+    schema: main
+    loader: seed
+
+    freshness:
+      warn_after: {count: 1, period: day}
+      error_after: {count: 7, period: day}
+
+    tables:
+      - name: sales_order_header
+        identifier: "Sales_SalesOrderHeader"
+        description: "销售订单头表 — 每行一个订单，含日期/金额/客户"
+        loaded_at_field: ModifiedDate
+        columns:
+          - name: SalesOrderID
+            description: "订单ID（主键）"
+          - name: OrderDate
+            description: "订单日期"
+          - name: DueDate
+            description: "应到货日期"
+          - name: ShipDate
+            description: "发货日期"
+          - name: Status
+            description: "订单状态码"
+          - name: OnlineOrderFlag
+            description: "是否在线订单"
+          - name: CustomerID
+            description: "客户ID"
+          - name: SubTotal
+            description: "小计金额"
+          - name: TaxAmt
+            description: "税额"
+          - name: Freight
+            description: "运费"
+          - name: TotalDue
+            description: "到期应付总额"
+
+      - name: sales_order_detail
+        loaded_at_field: ModifiedDate
+        identifier: "Sales_SalesOrderDetail"
+        description: "销售订单明细行 — 每行一个商品条目"
+        columns:
+          - name: SalesOrderID
+            description: "订单ID（外键 → sales_order_header）"
+          - name: SalesOrderDetailID
+            description: "明细行ID（主键）"
+          - name: OrderQty
+            description: "数量"
+          - name: ProductID
+            description: "产品ID"
+          - name: SpecialOfferID
+            description: "促销ID"
+          - name: UnitPrice
+            description: "单价"
+          - name: UnitPriceDiscount
+            description: "单价折扣"
+          - name: LineTotal
+            description: "行总额"
+
+      - name: customer
+        loaded_at_field: ModifiedDate
+        identifier: "Sales_Customer"
+        description: "客户信息 — 关联门店或自然人"
+        columns:
+          - name: CustomerID
+            description: "客户ID（主键）"
+          - name: PersonID
+            description: "自然人ID（外键 → person）"
+          - name: StoreID
+            description: "门店ID（外键 → store）"
+          - name: TerritoryID
+            description: "销售区域ID"
+          - name: AccountNumber
+            description: "客户编号"
+
+      - name: store
+        loaded_at_field: ModifiedDate
+        identifier: "Sales_Store"
+        description: "门店信息"
+        columns:
+          - name: BusinessEntityID
+            description: "门店ID（主键）"
+          - name: Name
+            description: "门店名称"
+          - name: SalesPersonID
+            description: "销售人员ID"
+
+      - name: person
+        loaded_at_field: ModifiedDate
+        identifier: "Person_Person"
+        description: "自然人信息（包括员工/客户/供应商联系人）"
+        columns:
+          - name: BusinessEntityID
+            description: "业务实体ID（主键）"
+          - name: PersonType
+            description: "人员类型（SC=门店客户/IN=个人客户/EM=员工/VC=供应商联系人）"
+          - name: Title
+            description: "称谓"
+          - name: FirstName
+            description: "名"
+          - name: MiddleName
+            description: "中间名"
+          - name: LastName
+            description: "姓"
+
+      - name: product
+        loaded_at_field: ModifiedDate
+        identifier: "Production_Product"
+        description: "产品信息"
+        columns:
+          - name: ProductID
+            description: "产品ID（主键）"
+          - name: Name
+            description: "产品名称"
+          - name: ProductNumber
+            description: "产品编号"
+          - name: Color
+            description: "颜色"
+          - name: StandardCost
+            description: "标准成本"
+          - name: ListPrice
+            description: "标价"
+          - name: DaysToManufacture
+            description: "制造天数"
+          - name: ProductLine
+            description: "产品线"
+          - name: Class
+            description: "等级"
+          - name: Style
+            description: "款式"
+          - name: ProductSubcategoryID
+            description: "子品类ID（外键 → product_subcategory）"
+          - name: SellStartDate
+            description: "销售开始日期"
+          - name: SellEndDate
+            description: "销售结束日期"
+
+      - name: product_subcategory
+        loaded_at_field: ModifiedDate
+        loaded_at_field: ModifiedDate
+        identifier: "Production_ProductSubcategory"
+        description: "产品子品类"
+        columns:
+          - name: ProductSubcategoryID
+            description: "子品类ID（主键）"
+          - name: ProductCategoryID
+            description: "品类ID（外键 → product_category）"
+          - name: Name
+            description: "子品类名称"
+
+      - name: product_category
+        loaded_at_field: ModifiedDate
+        loaded_at_field: ModifiedDate
+        identifier: "Production_ProductCategory"
+        description: "产品大类品类"
+        columns:
+          - name: ProductCategoryID
+            description: "品类ID（主键）"
+          - name: Name
+            description: "品类名称"
+
+      - name: territory
+        loaded_at_field: ModifiedDate
+        identifier: "Sales_SalesTerritory"
+        description: "销售区域"
+        columns:
+          - name: TerritoryID
+            description: "区域ID（主键）"
+          - name: Name
+            description: "区域名称"
+          - name: CountryRegionCode
+            description: "国家/地区代码"
+          - name: Group
+            description: "大区分组"
+
+      - name: special_offer
+        loaded_at_field: ModifiedDate
+        identifier: "Sales_SpecialOffer"
+        description: "促销活动"
+        columns:
+          - name: SpecialOfferID
+            description: "促销ID（主键）"
+          - name: Description
+            description: "促销描述"
+          - name: DiscountPct
+            description: "折扣百分比"
+          - name: Type
+            description: "促销类型"
+          - name: Category
+            description: "促销类别"
+          - name: StartDate
+            description: "开始日期"
+          - name: EndDate
+            description: "结束日期"
+          - name: MinQty
+            description: "最少购买数量"
+          - name: MaxQty
+            description: "最多购买数量"
+
+      - name: ship_method
+        loaded_at_field: ModifiedDate
+        identifier: "Purchasing_ShipMethod"
+        description: "配送方式"
+        columns:
+          - name: ShipMethodID
+            description: "配送方式ID（主键）"
+          - name: Name
+            description: "配送方式名称"
+          - name: ShipBase
+            description: "基础运费"
+          - name: ShipRate
+            description: "运费费率"
+
+  - name: seed_data
+    description: "自定义演示用 seed 数据 — 用于 dbt snapshot 教学"
+    database: dev
+    schema: main
+    loader: seed
+
+    tables:
+      - name: raw_customers
+        description: "客户演示数据 — city 字段用于演示 SCD Type 2 变化追踪"
+        columns:
+          - name: customer_id
+            description: "客户ID（主键）"
+          - name: name
+            description: "客户姓名"
+          - name: email
+            description: "邮箱"
+          - name: city
+            description: "所在城市（用于快照比较）"

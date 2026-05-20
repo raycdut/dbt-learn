@@ -1,0 +1,4 @@
+customer_id,name,email,city,updated_at
+101,张三,zhang@email.com,上海,2026-03-15
+102,李四,li@email.com,上海,2026-01-01
+103,王五,wang@email.com,深圳,2026-01-01

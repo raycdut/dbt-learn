@@ -1,0 +1,41 @@
+name: dbt CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  dbt-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install dbt-core dbt-duckdb
+
+      - name: Create profiles.yml
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml << 'EOF'
+          dbt_learn:
+            outputs:
+              ci:
+                type: duckdb
+                path: ci.duckdb
+                threads: 4
+            target: ci
+          EOF
+
+      - name: Install dbt packages
+        run: dbt deps
+
+      - name: Build and Test
+        run: dbt build --target ci

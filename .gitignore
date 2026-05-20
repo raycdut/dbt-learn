@@ -1,0 +1,7 @@
+.DS_Store
+logs/
+ppt/dbt_P08_P09_P10.pptx
+src/create_ppt.js
+src/create_ppt.py
+src/dbt_P08_P09_P10.pptx
+*.duckdb
