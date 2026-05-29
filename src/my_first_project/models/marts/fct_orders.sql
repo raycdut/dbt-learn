@@ -3,6 +3,12 @@
     unique_key='sales_order_id',
     incremental_strategy='merge',
     post_hook="""
+        CREATE SCHEMA IF NOT EXISTS audit;
+        CREATE TABLE IF NOT EXISTS audit.row_counts (
+            model_name VARCHAR,
+            row_count INT64,
+            checked_at TIMESTAMP
+        );
         INSERT INTO audit.row_counts (model_name, row_count, checked_at)
         SELECT '{{ this.name }}', COUNT(*), CURRENT_TIMESTAMP
         FROM {{ this }}
@@ -20,6 +26,11 @@ SELECT
     h.total_due,
     h.status_code,
     h.is_online_order,
+    h.territory_id,
+    h.ship_method_id,
+    t.territory_name,
+    t.region_group,
+    s.ship_method_name,
     CASE
         WHEN h.status_code = 1 THEN '进行中'
         WHEN h.status_code = 2 THEN '已批准'
@@ -32,6 +43,10 @@ SELECT
 FROM {{ ref('stg_sales_order_header') }} h
 LEFT JOIN {{ ref('stg_customer') }} c
     ON h.customer_id = c.customer_id
+LEFT JOIN {{ ref('stg_territory') }} t
+    ON h.territory_id = t.territory_id
+LEFT JOIN {{ ref('stg_ship_method') }} s
+    ON h.ship_method_id = s.ship_method_id
 
 {% if is_incremental() %}
   WHERE h.order_date > (SELECT MAX(order_date) FROM {{ this }})

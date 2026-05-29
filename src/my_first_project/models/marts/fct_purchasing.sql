@@ -1,0 +1,43 @@
+-- fact: purchasing
+-- row-level granularity: one row per purchase order detail
+{{ config(materialized='table') }}
+
+SELECT
+  purchase_order_id,
+  purchase_order_detail_id,
+  revision_number,
+  status,
+  employee_id,
+  vendor_id,
+  vendor_name,
+  account_number,
+  credit_rating,
+  preferred_vendor_status,
+  vendor_active_flag,
+  product_id,
+  product_name,
+  product_number,
+  standard_cost,
+  list_price,
+  safety_stock_level,
+  reorder_point,
+  product_subcategory_id,
+  product_model_id,
+  ship_method_id,
+  ship_method_name,
+  ship_base,
+  ship_rate,
+  due_date,
+  order_date,
+  ship_date,
+  order_qty,
+  unit_price,
+  line_total,
+  received_qty,
+  rejected_qty,
+  stocked_qty,
+  sub_total,
+  tax_amt,
+  freight,
+  total_due
+FROM {{ ref('int_purchase_details') }}

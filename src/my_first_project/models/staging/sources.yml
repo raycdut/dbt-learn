@@ -216,6 +216,874 @@ sources:
           - name: ShipRate
             description: "运费费率"
 
+      - name: hr_department
+        identifier: "HumanResources_Department"
+        loaded_at_field: ModifiedDate
+        description: "HumanResources_Department 原始数据"
+        columns:
+          - name: DepartmentID
+            description: "DepartmentID"
+          - name: Name
+            description: "Name"
+          - name: GroupName
+            description: "GroupName"
+
+      - name: hr_employee
+        identifier: "HumanResources_Employee"
+        loaded_at_field: ModifiedDate
+        description: "HumanResources_Employee 原始数据"
+        columns:
+          - name: BusinessEntityID
+            description: "BusinessEntityID"
+          - name: NationalIDNumber
+            description: "NationalIDNumber"
+          - name: LoginID
+            description: "LoginID"
+          - name: OrganizationNode
+            description: "OrganizationNode"
+          - name: OrganizationLevel
+            description: "OrganizationLevel"
+          - name: JobTitle
+            description: "JobTitle"
+          - name: BirthDate
+            description: "BirthDate"
+          - name: MaritalStatus
+            description: "MaritalStatus"
+          - name: Gender
+            description: "Gender"
+          - name: HireDate
+            description: "HireDate"
+          - name: SalariedFlag
+            description: "SalariedFlag"
+          - name: VacationHours
+            description: "VacationHours"
+          - name: SickLeaveHours
+            description: "SickLeaveHours"
+          - name: CurrentFlag
+            description: "CurrentFlag"
+
+      - name: hr_employee_department_history
+        identifier: "HumanResources_EmployeeDepartmentHistory"
+        loaded_at_field: ModifiedDate
+        description: "HumanResources_EmployeeDepartmentHistory 原始数据"
+        columns:
+          - name: BusinessEntityID
+            description: "BusinessEntityID"
+          - name: DepartmentID
+            description: "DepartmentID"
+          - name: ShiftID
+            description: "ShiftID"
+          - name: StartDate
+            description: "StartDate"
+          - name: EndDate
+            description: "EndDate"
+
+      - name: hr_employee_pay_history
+        identifier: "HumanResources_EmployeePayHistory"
+        loaded_at_field: ModifiedDate
+        description: "HumanResources_EmployeePayHistory 原始数据"
+        columns:
+          - name: BusinessEntityID
+            description: "BusinessEntityID"
+          - name: RateChangeDate
+            description: "RateChangeDate"
+          - name: Rate
+            description: "Rate"
+          - name: PayFrequency
+            description: "PayFrequency"
+
+      - name: hr_job_candidate
+        identifier: "HumanResources_JobCandidate"
+        loaded_at_field: ModifiedDate
+        description: "HumanResources_JobCandidate 原始数据"
+        columns:
+          - name: JobCandidateID
+            description: "JobCandidateID"
+          - name: BusinessEntityID
+            description: "BusinessEntityID"
+          - name: Resume
+            description: "Resume"
+
+      - name: hr_shift
+        identifier: "HumanResources_Shift"
+        loaded_at_field: ModifiedDate
+        description: "HumanResources_Shift 原始数据"
+        columns:
+          - name: ShiftID
+            description: "ShiftID"
+          - name: Name
+            description: "Name"
+          - name: StartTime
+            description: "StartTime"
+          - name: EndTime
+            description: "EndTime"
+
+      - name: person_address
+        identifier: "Person_Address"
+        loaded_at_field: ModifiedDate
+        description: "Person_Address 原始数据"
+        columns:
+          - name: AddressID
+            description: "AddressID"
+          - name: AddressLine1
+            description: "AddressLine1"
+          - name: AddressLine2
+            description: "AddressLine2"
+          - name: City
+            description: "City"
+          - name: StateProvinceID
+            description: "StateProvinceID"
+          - name: PostalCode
+            description: "PostalCode"
+          - name: SpatialLocation
+            description: "SpatialLocation"
+
+      - name: person_address_type
+        identifier: "Person_AddressType"
+        loaded_at_field: ModifiedDate
+        description: "Person_AddressType 原始数据"
+        columns:
+          - name: AddressTypeID
+            description: "AddressTypeID"
+          - name: Name
+            description: "Name"
+
+      - name: person_business_entity
+        identifier: "Person_BusinessEntity"
+        loaded_at_field: ModifiedDate
+        description: "Person_BusinessEntity 原始数据"
+        columns:
+          - name: BusinessEntityID
+            description: "BusinessEntityID"
+
+      - name: person_business_entity_address
+        identifier: "Person_BusinessEntityAddress"
+        loaded_at_field: ModifiedDate
+        description: "Person_BusinessEntityAddress 原始数据"
+        columns:
+          - name: BusinessEntityID
+            description: "BusinessEntityID"
+          - name: AddressID
+            description: "AddressID"
+          - name: AddressTypeID
+            description: "AddressTypeID"
+
+      - name: person_business_entity_contact
+        identifier: "Person_BusinessEntityContact"
+        loaded_at_field: ModifiedDate
+        description: "Person_BusinessEntityContact 原始数据"
+        columns:
+          - name: BusinessEntityID
+            description: "BusinessEntityID"
+          - name: PersonID
+            description: "PersonID"
+          - name: ContactTypeID
+            description: "ContactTypeID"
+
+      - name: person_contact_type
+        identifier: "Person_ContactType"
+        loaded_at_field: ModifiedDate
+        description: "Person_ContactType 原始数据"
+        columns:
+          - name: ContactTypeID
+            description: "ContactTypeID"
+          - name: Name
+            description: "Name"
+
+      - name: person_country_region
+        identifier: "Person_CountryRegion"
+        loaded_at_field: ModifiedDate
+        description: "Person_CountryRegion 原始数据"
+        columns:
+          - name: CountryRegionCode
+            description: "CountryRegionCode"
+          - name: Name
+            description: "Name"
+
+      - name: person_email_address
+        identifier: "Person_EmailAddress"
+        loaded_at_field: ModifiedDate
+        description: "Person_EmailAddress 原始数据"
+        columns:
+          - name: BusinessEntityID
+            description: "BusinessEntityID"
+          - name: EmailAddressID
+            description: "EmailAddressID"
+          - name: EmailAddress
+            description: "EmailAddress"
+
+      - name: person_password
+        identifier: "Person_Password"
+        loaded_at_field: ModifiedDate
+        description: "Person_Password 原始数据"
+        columns:
+          - name: BusinessEntityID
+            description: "BusinessEntityID"
+          - name: PasswordHash
+            description: "PasswordHash"
+          - name: PasswordSalt
+            description: "PasswordSalt"
+
+      - name: person_person_phone
+        identifier: "Person_PersonPhone"
+        loaded_at_field: ModifiedDate
+        description: "Person_PersonPhone 原始数据"
+        columns:
+          - name: BusinessEntityID
+            description: "BusinessEntityID"
+          - name: PhoneNumber
+            description: "PhoneNumber"
+          - name: PhoneNumberTypeID
+            description: "PhoneNumberTypeID"
+
+      - name: person_phone_number_type
+        identifier: "Person_PhoneNumberType"
+        loaded_at_field: ModifiedDate
+        description: "Person_PhoneNumberType 原始数据"
+        columns:
+          - name: PhoneNumberTypeID
+            description: "PhoneNumberTypeID"
+          - name: Name
+            description: "Name"
+
+      - name: person_state_province
+        identifier: "Person_StateProvince"
+        loaded_at_field: ModifiedDate
+        description: "Person_StateProvince 原始数据"
+        columns:
+          - name: StateProvinceID
+            description: "StateProvinceID"
+          - name: StateProvinceCode
+            description: "StateProvinceCode"
+          - name: CountryRegionCode
+            description: "CountryRegionCode"
+          - name: IsOnlyStateProvinceFlag
+            description: "IsOnlyStateProvinceFlag"
+          - name: Name
+            description: "Name"
+          - name: TerritoryID
+            description: "TerritoryID"
+
+      - name: production_bill_of_materials
+        identifier: "Production_BillOfMaterials"
+        loaded_at_field: ModifiedDate
+        description: "Production_BillOfMaterials 原始数据"
+        columns:
+          - name: BillOfMaterialsID
+            description: "BillOfMaterialsID"
+          - name: ProductAssemblyID
+            description: "ProductAssemblyID"
+          - name: ComponentID
+            description: "ComponentID"
+          - name: StartDate
+            description: "StartDate"
+          - name: EndDate
+            description: "EndDate"
+          - name: UnitMeasureCode
+            description: "UnitMeasureCode"
+          - name: BOMLevel
+            description: "BOMLevel"
+          - name: PerAssemblyQty
+            description: "PerAssemblyQty"
+
+      - name: production_culture
+        identifier: "Production_Culture"
+        loaded_at_field: ModifiedDate
+        description: "Production_Culture 原始数据"
+        columns:
+          - name: CultureID
+            description: "CultureID"
+          - name: Name
+            description: "Name"
+
+      - name: production_document
+        identifier: "Production_Document"
+        loaded_at_field: ModifiedDate
+        description: "Production_Document 原始数据"
+        columns:
+          - name: DocumentNode
+            description: "DocumentNode"
+          - name: DocumentLevel
+            description: "DocumentLevel"
+          - name: Title
+            description: "Title"
+          - name: Owner
+            description: "Owner"
+          - name: FolderFlag
+            description: "FolderFlag"
+          - name: FileName
+            description: "FileName"
+          - name: FileExtension
+            description: "FileExtension"
+          - name: Revision
+            description: "Revision"
+          - name: ChangeNumber
+            description: "ChangeNumber"
+          - name: Status
+            description: "Status"
+          - name: DocumentSummary
+            description: "DocumentSummary"
+
+      - name: production_illustration
+        identifier: "Production_Illustration"
+        loaded_at_field: ModifiedDate
+        description: "Production_Illustration 原始数据"
+        columns:
+          - name: IllustrationID
+            description: "IllustrationID"
+          - name: Diagram
+            description: "Diagram"
+
+      - name: production_location
+        identifier: "Production_Location"
+        loaded_at_field: ModifiedDate
+        description: "Production_Location 原始数据"
+        columns:
+          - name: LocationID
+            description: "LocationID"
+          - name: Name
+            description: "Name"
+          - name: CostRate
+            description: "CostRate"
+          - name: Availability
+            description: "Availability"
+
+      - name: production_product_cost_history
+        identifier: "Production_ProductCostHistory"
+        loaded_at_field: ModifiedDate
+        description: "Production_ProductCostHistory 原始数据"
+        columns:
+          - name: ProductID
+            description: "ProductID"
+          - name: StartDate
+            description: "StartDate"
+          - name: EndDate
+            description: "EndDate"
+          - name: StandardCost
+            description: "StandardCost"
+
+      - name: production_product_description
+        identifier: "Production_ProductDescription"
+        loaded_at_field: ModifiedDate
+        description: "Production_ProductDescription 原始数据"
+        columns:
+          - name: ProductDescriptionID
+            description: "ProductDescriptionID"
+          - name: Description
+            description: "Description"
+
+      - name: production_product_document
+        identifier: "Production_ProductDocument"
+        loaded_at_field: ModifiedDate
+        description: "Production_ProductDocument 原始数据"
+        columns:
+          - name: ProductID
+            description: "ProductID"
+          - name: DocumentNode
+            description: "DocumentNode"
+
+      - name: production_product_inventory
+        identifier: "Production_ProductInventory"
+        loaded_at_field: ModifiedDate
+        description: "Production_ProductInventory 原始数据"
+        columns:
+          - name: ProductID
+            description: "ProductID"
+          - name: LocationID
+            description: "LocationID"
+          - name: Shelf
+            description: "Shelf"
+          - name: Bin
+            description: "Bin"
+          - name: Quantity
+            description: "Quantity"
+
+      - name: production_product_list_price_history
+        identifier: "Production_ProductListPriceHistory"
+        loaded_at_field: ModifiedDate
+        description: "Production_ProductListPriceHistory 原始数据"
+        columns:
+          - name: ProductID
+            description: "ProductID"
+          - name: StartDate
+            description: "StartDate"
+          - name: EndDate
+            description: "EndDate"
+          - name: ListPrice
+            description: "ListPrice"
+
+      - name: production_product_model
+        identifier: "Production_ProductModel"
+        loaded_at_field: ModifiedDate
+        description: "Production_ProductModel 原始数据"
+        columns:
+          - name: ProductModelID
+            description: "ProductModelID"
+          - name: Name
+            description: "Name"
+          - name: CatalogDescription
+            description: "CatalogDescription"
+          - name: Instructions
+            description: "Instructions"
+
+      - name: production_product_model_illustration
+        identifier: "Production_ProductModelIllustration"
+        loaded_at_field: ModifiedDate
+        description: "Production_ProductModelIllustration 原始数据"
+        columns:
+          - name: ProductModelID
+            description: "ProductModelID"
+          - name: IllustrationID
+            description: "IllustrationID"
+
+      - name: production_product_model_pd_culture
+        identifier: "Production_ProductModelProductDescriptionCulture"
+        loaded_at_field: ModifiedDate
+        description: "Production_ProductModelProductDescriptionCulture 原始数据"
+        columns:
+          - name: ProductModelID
+            description: "ProductModelID"
+          - name: ProductDescriptionID
+            description: "ProductDescriptionID"
+          - name: CultureID
+            description: "CultureID"
+
+      - name: production_product_photo
+        identifier: "Production_ProductPhoto"
+        loaded_at_field: ModifiedDate
+        description: "Production_ProductPhoto 原始数据"
+        columns:
+          - name: ProductPhotoID
+            description: "ProductPhotoID"
+          - name: ThumbnailPhotoFileName
+            description: "ThumbnailPhotoFileName"
+          - name: LargePhotoFileName
+            description: "LargePhotoFileName"
+
+      - name: production_product_product_photo
+        identifier: "Production_ProductProductPhoto"
+        loaded_at_field: ModifiedDate
+        description: "Production_ProductProductPhoto 原始数据"
+        columns:
+          - name: ProductID
+            description: "ProductID"
+          - name: ProductPhotoID
+            description: "ProductPhotoID"
+          - name: Primary
+            description: "Primary"
+
+      - name: production_product_review
+        identifier: "Production_ProductReview"
+        loaded_at_field: ModifiedDate
+        description: "Production_ProductReview 原始数据"
+        columns:
+          - name: ProductReviewID
+            description: "ProductReviewID"
+          - name: ProductID
+            description: "ProductID"
+          - name: ReviewerName
+            description: "ReviewerName"
+          - name: ReviewDate
+            description: "ReviewDate"
+          - name: EmailAddress
+            description: "EmailAddress"
+          - name: Rating
+            description: "Rating"
+          - name: Comments
+            description: "Comments"
+
+      - name: production_scrap_reason
+        identifier: "Production_ScrapReason"
+        loaded_at_field: ModifiedDate
+        description: "Production_ScrapReason 原始数据"
+        columns:
+          - name: ScrapReasonID
+            description: "ScrapReasonID"
+          - name: Name
+            description: "Name"
+
+      - name: production_transaction_history
+        identifier: "Production_TransactionHistory"
+        loaded_at_field: ModifiedDate
+        description: "Production_TransactionHistory 原始数据"
+        columns:
+          - name: TransactionID
+            description: "TransactionID"
+          - name: ProductID
+            description: "ProductID"
+          - name: ReferenceOrderID
+            description: "ReferenceOrderID"
+          - name: ReferenceOrderLineID
+            description: "ReferenceOrderLineID"
+          - name: TransactionDate
+            description: "TransactionDate"
+          - name: TransactionType
+            description: "TransactionType"
+          - name: Quantity
+            description: "Quantity"
+          - name: ActualCost
+            description: "ActualCost"
+
+      - name: production_transaction_history_archive
+        identifier: "Production_TransactionHistoryArchive"
+        loaded_at_field: ModifiedDate
+        description: "Production_TransactionHistoryArchive 原始数据"
+        columns:
+          - name: TransactionID
+            description: "TransactionID"
+          - name: ProductID
+            description: "ProductID"
+          - name: ReferenceOrderID
+            description: "ReferenceOrderID"
+          - name: ReferenceOrderLineID
+            description: "ReferenceOrderLineID"
+          - name: TransactionDate
+            description: "TransactionDate"
+          - name: TransactionType
+            description: "TransactionType"
+          - name: Quantity
+            description: "Quantity"
+          - name: ActualCost
+            description: "ActualCost"
+
+      - name: production_unit_measure
+        identifier: "Production_UnitMeasure"
+        loaded_at_field: ModifiedDate
+        description: "Production_UnitMeasure 原始数据"
+        columns:
+          - name: UnitMeasureCode
+            description: "UnitMeasureCode"
+          - name: Name
+            description: "Name"
+
+      - name: production_work_order
+        identifier: "Production_WorkOrder"
+        loaded_at_field: ModifiedDate
+        description: "Production_WorkOrder 原始数据"
+        columns:
+          - name: WorkOrderID
+            description: "WorkOrderID"
+          - name: ProductID
+            description: "ProductID"
+          - name: OrderQty
+            description: "OrderQty"
+          - name: StockedQty
+            description: "StockedQty"
+          - name: ScrappedQty
+            description: "ScrappedQty"
+          - name: StartDate
+            description: "StartDate"
+          - name: EndDate
+            description: "EndDate"
+          - name: DueDate
+            description: "DueDate"
+          - name: ScrapReasonID
+            description: "ScrapReasonID"
+
+      - name: production_work_order_routing
+        identifier: "Production_WorkOrderRouting"
+        loaded_at_field: ModifiedDate
+        description: "Production_WorkOrderRouting 原始数据"
+        columns:
+          - name: WorkOrderID
+            description: "WorkOrderID"
+          - name: ProductID
+            description: "ProductID"
+          - name: OperationSequence
+            description: "OperationSequence"
+          - name: LocationID
+            description: "LocationID"
+          - name: ScheduledStartDate
+            description: "ScheduledStartDate"
+          - name: ScheduledEndDate
+            description: "ScheduledEndDate"
+          - name: ActualStartDate
+            description: "ActualStartDate"
+          - name: ActualEndDate
+            description: "ActualEndDate"
+          - name: ActualResourceHrs
+            description: "ActualResourceHrs"
+          - name: PlannedCost
+            description: "PlannedCost"
+          - name: ActualCost
+            description: "ActualCost"
+
+      - name: purchasing_product_vendor
+        identifier: "Purchasing_ProductVendor"
+        loaded_at_field: ModifiedDate
+        description: "Purchasing_ProductVendor 原始数据"
+        columns:
+          - name: ProductID
+            description: "ProductID"
+          - name: BusinessEntityID
+            description: "BusinessEntityID"
+          - name: AverageLeadTime
+            description: "AverageLeadTime"
+          - name: StandardPrice
+            description: "StandardPrice"
+          - name: LastReceiptCost
+            description: "LastReceiptCost"
+          - name: LastReceiptDate
+            description: "LastReceiptDate"
+          - name: MinOrderQty
+            description: "MinOrderQty"
+          - name: MaxOrderQty
+            description: "MaxOrderQty"
+          - name: OnOrderQty
+            description: "OnOrderQty"
+          - name: UnitMeasureCode
+            description: "UnitMeasureCode"
+
+      - name: purchasing_purchase_order_detail
+        identifier: "Purchasing_PurchaseOrderDetail"
+        loaded_at_field: ModifiedDate
+        description: "Purchasing_PurchaseOrderDetail 原始数据"
+        columns:
+          - name: PurchaseOrderID
+            description: "PurchaseOrderID"
+          - name: PurchaseOrderDetailID
+            description: "PurchaseOrderDetailID"
+          - name: DueDate
+            description: "DueDate"
+          - name: OrderQty
+            description: "OrderQty"
+          - name: ProductID
+            description: "ProductID"
+          - name: UnitPrice
+            description: "UnitPrice"
+          - name: LineTotal
+            description: "LineTotal"
+          - name: ReceivedQty
+            description: "ReceivedQty"
+          - name: RejectedQty
+            description: "RejectedQty"
+          - name: StockedQty
+            description: "StockedQty"
+
+      - name: purchasing_purchase_order_header
+        identifier: "Purchasing_PurchaseOrderHeader"
+        loaded_at_field: ModifiedDate
+        description: "Purchasing_PurchaseOrderHeader 原始数据"
+        columns:
+          - name: PurchaseOrderID
+            description: "PurchaseOrderID"
+          - name: RevisionNumber
+            description: "RevisionNumber"
+          - name: Status
+            description: "Status"
+          - name: EmployeeID
+            description: "EmployeeID"
+          - name: VendorID
+            description: "VendorID"
+          - name: ShipMethodID
+            description: "ShipMethodID"
+          - name: OrderDate
+            description: "OrderDate"
+          - name: ShipDate
+            description: "ShipDate"
+          - name: SubTotal
+            description: "SubTotal"
+          - name: TaxAmt
+            description: "TaxAmt"
+          - name: Freight
+            description: "Freight"
+          - name: TotalDue
+            description: "TotalDue"
+
+      - name: purchasing_vendor
+        identifier: "Purchasing_Vendor"
+        loaded_at_field: ModifiedDate
+        description: "Purchasing_Vendor 原始数据"
+        columns:
+          - name: BusinessEntityID
+            description: "BusinessEntityID"
+          - name: AccountNumber
+            description: "AccountNumber"
+          - name: Name
+            description: "Name"
+          - name: CreditRating
+            description: "CreditRating"
+          - name: PreferredVendorStatus
+            description: "PreferredVendorStatus"
+          - name: ActiveFlag
+            description: "ActiveFlag"
+          - name: PurchasingWebServiceURL
+            description: "PurchasingWebServiceURL"
+
+      - name: sales_country_region_currency
+        identifier: "Sales_CountryRegionCurrency"
+        loaded_at_field: ModifiedDate
+        description: "Sales_CountryRegionCurrency 原始数据"
+        columns:
+          - name: CountryRegionCode
+            description: "CountryRegionCode"
+          - name: CurrencyCode
+            description: "CurrencyCode"
+
+      - name: sales_credit_card
+        identifier: "Sales_CreditCard"
+        loaded_at_field: ModifiedDate
+        description: "Sales_CreditCard 原始数据"
+        columns:
+          - name: CreditCardID
+            description: "CreditCardID"
+          - name: CardType
+            description: "CardType"
+          - name: CardNumber
+            description: "CardNumber"
+          - name: ExpMonth
+            description: "ExpMonth"
+          - name: ExpYear
+            description: "ExpYear"
+
+      - name: sales_currency
+        identifier: "Sales_Currency"
+        loaded_at_field: ModifiedDate
+        description: "Sales_Currency 原始数据"
+        columns:
+          - name: CurrencyCode
+            description: "CurrencyCode"
+          - name: Name
+            description: "Name"
+
+      - name: sales_currency_rate
+        identifier: "Sales_CurrencyRate"
+        loaded_at_field: ModifiedDate
+        description: "Sales_CurrencyRate 原始数据"
+        columns:
+          - name: CurrencyRateID
+            description: "CurrencyRateID"
+          - name: CurrencyRateDate
+            description: "CurrencyRateDate"
+          - name: FromCurrencyCode
+            description: "FromCurrencyCode"
+          - name: ToCurrencyCode
+            description: "ToCurrencyCode"
+          - name: AverageRate
+            description: "AverageRate"
+          - name: EndOfDayRate
+            description: "EndOfDayRate"
+
+      - name: sales_order_header_sales_reason
+        identifier: "Sales_SalesOrderHeaderSalesReason"
+        loaded_at_field: ModifiedDate
+        description: "Sales_SalesOrderHeaderSalesReason 原始数据"
+        columns:
+          - name: SalesOrderID
+            description: "SalesOrderID"
+          - name: SalesReasonID
+            description: "SalesReasonID"
+
+      - name: sales_person_credit_card
+        identifier: "Sales_PersonCreditCard"
+        loaded_at_field: ModifiedDate
+        description: "Sales_PersonCreditCard 原始数据"
+        columns:
+          - name: BusinessEntityID
+            description: "BusinessEntityID"
+          - name: CreditCardID
+            description: "CreditCardID"
+
+      - name: sales_sales_person
+        identifier: "Sales_SalesPerson"
+        loaded_at_field: ModifiedDate
+        description: "Sales_SalesPerson 原始数据"
+        columns:
+          - name: BusinessEntityID
+            description: "BusinessEntityID"
+          - name: TerritoryID
+            description: "TerritoryID"
+          - name: SalesQuota
+            description: "SalesQuota"
+          - name: Bonus
+            description: "Bonus"
+          - name: CommissionPct
+            description: "CommissionPct"
+          - name: SalesYTD
+            description: "SalesYTD"
+          - name: SalesLastYear
+            description: "SalesLastYear"
+
+      - name: sales_sales_person_quota_history
+        identifier: "Sales_SalesPersonQuotaHistory"
+        loaded_at_field: ModifiedDate
+        description: "Sales_SalesPersonQuotaHistory 原始数据"
+        columns:
+          - name: BusinessEntityID
+            description: "BusinessEntityID"
+          - name: QuotaDate
+            description: "QuotaDate"
+          - name: SalesQuota
+            description: "SalesQuota"
+
+      - name: sales_sales_reason
+        identifier: "Sales_SalesReason"
+        loaded_at_field: ModifiedDate
+        description: "Sales_SalesReason 原始数据"
+        columns:
+          - name: SalesReasonID
+            description: "SalesReasonID"
+          - name: Name
+            description: "Name"
+          - name: ReasonType
+            description: "ReasonType"
+
+      - name: sales_sales_tax_rate
+        identifier: "Sales_SalesTaxRate"
+        loaded_at_field: ModifiedDate
+        description: "Sales_SalesTaxRate 原始数据"
+        columns:
+          - name: SalesTaxRateID
+            description: "SalesTaxRateID"
+          - name: StateProvinceID
+            description: "StateProvinceID"
+          - name: TaxType
+            description: "TaxType"
+          - name: TaxRate
+            description: "TaxRate"
+          - name: Name
+            description: "Name"
+
+      - name: sales_sales_territory_history
+        identifier: "Sales_SalesTerritoryHistory"
+        loaded_at_field: ModifiedDate
+        description: "Sales_SalesTerritoryHistory 原始数据"
+        columns:
+          - name: BusinessEntityID
+            description: "BusinessEntityID"
+          - name: TerritoryID
+            description: "TerritoryID"
+          - name: StartDate
+            description: "StartDate"
+          - name: EndDate
+            description: "EndDate"
+
+      - name: sales_shopping_cart_item
+        identifier: "Sales_ShoppingCartItem"
+        loaded_at_field: ModifiedDate
+        description: "Sales_ShoppingCartItem 原始数据"
+        columns:
+          - name: ShoppingCartItemID
+            description: "ShoppingCartItemID"
+          - name: ShoppingCartID
+            description: "ShoppingCartID"
+          - name: Quantity
+            description: "Quantity"
+          - name: ProductID
+            description: "ProductID"
+          - name: DateCreated
+            description: "DateCreated"
+
+      - name: sales_special_offer_product
+        identifier: "Sales_SpecialOfferProduct"
+        loaded_at_field: ModifiedDate
+        description: "Sales_SpecialOfferProduct 原始数据"
+        columns:
+          - name: SpecialOfferID
+            description: "SpecialOfferID"
+          - name: ProductID
+            description: "ProductID"
+
   - name: seed_data
     description: "自定义演示用 seed 数据 — 用于 dbt snapshot 教学"
     database: dev

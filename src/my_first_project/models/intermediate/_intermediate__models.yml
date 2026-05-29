@@ -31,3 +31,372 @@ models:
         description: "含中间名的完整姓名（中间名不为空时拼接，否则用原 full_name）"
       - name: has_middle_name
         description: "是否有中间名（布尔标识）"
+
+  - name: int_purchase_details
+    description: |-
+      采购订单明细 — purchase_order_header × detail × product × vendor × ship_method 的完整宽表。
+      
+      上游：stg_purchasing_purchase_order_header / stg_purchasing_purchase_order_detail / stg_product / stg_purchasing_vendor / stg_ship_method
+      
+      行级粒度（每个 purchase order detail 一行），用于 fct_purchasing
+    columns:
+      - name: purchase_order_id
+        description: "采购订单ID"
+      - name: purchase_order_detail_id
+        description: "明细行ID（主键）"
+        tests: [unique, not_null]
+      - name: revision_number
+        description: "修订号"
+      - name: status
+        description: "订单状态"
+      - name: employee_id
+        description: "员工ID"
+      - name: vendor_id
+        description: "供应商ID"
+      - name: ship_method_id
+        description: "配送方式ID"
+      - name: order_date
+        description: "订单日期"
+      - name: ship_date
+        description: "发货日期"
+      - name: sub_total
+        description: "小计金额"
+      - name: tax_amt
+        description: "税额"
+      - name: freight
+        description: "运费"
+      - name: total_due
+        description: "到期应付总额"
+      - name: due_date
+        description: "应到货日期"
+      - name: order_qty
+        description: "订购数量"
+      - name: product_id
+        description: "产品ID"
+      - name: unit_price
+        description: "单价"
+      - name: line_total
+        description: "行总额"
+      - name: received_qty
+        description: "已收数量"
+      - name: rejected_qty
+        description: "拒收数量"
+      - name: stocked_qty
+        description: "入库数量"
+      - name: product_name
+        description: "产品名称"
+      - name: vendor_name
+        description: "供应商名称"
+      - name: ship_method_name
+        description: "配送方式名称"
+
+  - name: int_work_order_details
+    description: |-
+      工单明细 — work_order × scrap_reason × work_order_routing × location 的完整宽表。
+      
+      上游：stg_production_work_order / stg_production_scrap_reason / stg_production_work_order_routing / stg_production_location
+      
+      行级粒度（每个工单一行），用于 fm_production_work_orders
+    columns:
+      - name: work_order_id
+        description: "工单ID（主键）"
+        tests: [unique, not_null]
+      - name: product_id
+        description: "产品ID"
+      - name: order_qty
+        description: "订购数量"
+      - name: stocked_qty
+        description: "已入库数量"
+      - name: scrapped_qty
+        description: "报废数量"
+      - name: start_date
+        description: "开始日期"
+      - name: end_date
+        description: "结束日期"
+      - name: due_date
+        description: "截止日期"
+      - name: scrap_reason_id
+        description: "报废原因ID"
+      - name: scrap_reason_name
+        description: "报废原因名称"
+      - name: total_actual_resource_hrs
+        description: "实际总工时"
+      - name: total_planned_cost
+        description: "计划总成本"
+      - name: total_actual_cost
+        description: "实际总成本"
+      - name: location_id
+        description: "库位ID（首工序）"
+      - name: location_name
+        description: "库位名称"
+      - name: location_cost_rate
+        description: "库位成本费率"
+      - name: location_availability
+        description: "库位可用率"
+
+  - name: int_person_detail
+    description: |-
+      Person 多表合并宽表 — 12 个 Person 域 staging 表 Join 为单表。
+      
+      上游：stg_person_v2 / stg_person_email_address / stg_person_person_phone /
+            stg_person_phone_number_type / stg_person_business_entity_address /
+            stg_person_address / stg_person_state_province / stg_person_country_region
+      
+      每行一个人，含联系方式、首选电话、首选地址
+    columns:
+      - name: business_entity_id
+        description: "业务实体ID（主键）"
+        tests: [unique, not_null]
+      - name: person_type_code
+        description: "人员类型代码"
+      - name: full_name
+        description: "完整姓名"
+      - name: first_name
+        description: "名"
+      - name: last_name
+        description: "姓"
+      - name: title
+        description: "称谓"
+      - name: email_address
+        description: "邮箱地址"
+      - name: phone_number
+        description: "电话号码"
+      - name: phone_type_name
+        description: "电话类型"
+      - name: address_line_1
+        description: "地址行1"
+      - name: city
+        description: "城市"
+      - name: state_province_name
+        description: "省/州名称"
+      - name: postal_code
+        description: "邮政编码"
+      - name: country_region_name
+        description: "国家/地区名称"
+
+  - name: int_employee_overview
+    description: |-
+      员工概览 — HR 员工 × 部门 × 班次 × 薪资 × 联系人信息。
+      
+      上游：stg_hr_employee / stg_hr_employee_department_history / stg_hr_department /
+            stg_hr_shift / stg_hr_employee_pay_history / stg_person_v2 /
+            stg_person_email_address / stg_person_business_entity_address /
+            stg_person_address / stg_person_state_province
+      
+      仅包含当前员工（current_flag = TRUE）
+    columns:
+      - name: business_entity_id
+        description: "员工ID（主键）"
+        tests: [unique, not_null]
+      - name: job_title
+        description: "职位"
+      - name: full_name
+        description: "完整姓名"
+      - name: department_name
+        description: "部门名称"
+      - name: shift_name
+        description: "班次名称"
+      - name: current_pay_rate
+        description: "当前薪资"
+      - name: email_address
+        description: "邮箱地址"
+      - name: hire_date
+        description: "入职日期"
+
+  - name: int_sales_person_detail
+    description: |-
+      销售人员详情 — sales_person × person × employee × territory × quota_history。
+      
+      上游：stg_sales_sales_person / stg_person_v2 / stg_hr_employee / stg_territory /
+            stg_sales_sales_person_quota_history
+      
+      用于 dim_sales_person 和销售分析
+    columns:
+      - name: business_entity_id
+        description: "销售人员ID（主键）"
+        tests: [unique, not_null]
+      - name: full_name
+        description: "姓名"
+      - name: job_title
+        description: "职位"
+      - name: territory_name
+        description: "销售区域"
+      - name: sales_quota
+        description: "销售配额"
+      - name: bonus
+        description: "奖金"
+      - name: commission_pct
+        description: "提成比例"
+      - name: sales_ytd
+        description: "年初至今销售额"
+
+  - name: int_product_extended
+    description: |-
+      产品扩展信息 — product_hierarchy × product_model × inventory × review。
+      
+      上游：int_product_hierarchy / stg_product / stg_production_product_model /
+            stg_production_product_inventory / stg_production_product_review
+      
+      含库存汇总和评价统计
+    columns:
+      - name: product_id
+        description: "产品ID（主键）"
+        tests: [unique, not_null]
+      - name: product_name
+        description: "产品名称"
+      - name: category_name
+        description: "品类名称"
+      - name: model_name
+        description: "模型名称"
+      - name: total_inventory
+        description: "总库存数量"
+      - name: location_count
+        description: "库位数"
+      - name: avg_rating
+        description: "平均评分"
+      - name: review_count
+        description: "评价数"
+
+  - name: int_product_hierarchy
+    description: |-
+      产品层级拉平 — product → subcategory → category 三级关联。
+      
+      上游：stg_product / stg_product_subcategory / stg_product_category
+      
+      用于：dim_product 产品维度、int_order_details 订单明细
+    columns:
+      - name: product_id
+        description: "产品ID（主键）"
+        tests: [unique, not_null]
+      - name: product_name
+        description: "产品名称"
+      - name: product_number
+        description: "产品编号"
+      - name: color
+        description: "颜色"
+      - name: safety_stock_level
+        description: "安全库存水平"
+      - name: reorder_point
+        description: "再订购点"
+      - name: standard_cost
+        description: "标准成本"
+      - name: list_price
+        description: "标价"
+      - name: days_to_manufacture
+        description: "制造天数"
+      - name: product_line
+        description: "产品线（M=主/M=山地/R=公路/T=旅游/S=标准）"
+      - name: class
+        description: "等级（H=高/M=中/L=低）"
+      - name: style
+        description: "款式（W=女式/M=男式/U=通用）"
+      - name: sell_start_date
+        description: "销售开始日期"
+      - name: sell_end_date
+        description: "销售结束日期"
+      - name: subcategory_name
+        description: "子品类名称（来自 stg_product_subcategory）"
+      - name: category_name
+        description: "大类品类名称（来自 stg_product_category）"
+
+  - name: int_customer_info
+    description: |-
+      客户画像 — customer × person × store 关联。
+      
+      上游：stg_customer / stg_person_v2 / stg_store
+      
+      区分个人客户（有 person）和门店客户（有 store），用于 dim_customer
+    columns:
+      - name: customer_id
+        description: "客户ID（主键）"
+        tests: [unique, not_null]
+      - name: account_number
+        description: "客户编号"
+      - name: territory_id
+        description: "销售区域ID"
+      - name: business_entity_id
+        description: "自然人业务实体ID（若为个人客户）"
+      - name: person_type_code
+        description: "人员类型代码"
+      - name: full_name
+        description: "完整姓名"
+      - name: first_name
+        description: "名"
+      - name: middle_name
+        description: "中间名"
+      - name: last_name
+        description: "姓"
+      - name: title
+        description: "称谓"
+      - name: store_business_entity_id
+        description: "门店业务实体ID（若为门店客户）"
+      - name: store_name
+        description: "门店名称"
+
+  - name: int_order_details
+    description: |-
+      订单交易明细 — order header × detail × product × special_offer × territory × ship_method 的完整宽表。
+      
+      上游：stg_sales_order_detail / stg_sales_order_header / int_product_hierarchy / stg_special_offer / stg_territory / stg_ship_method
+      
+      行级粒度（每个 order detail 一行），用于 fct_order_details 和 ad-hoc 分析
+    columns:
+      - name: sales_order_id
+        description: "订单ID"
+        tests:
+          - not_null
+      - name: sales_order_detail_id
+        description: "明细行ID（主键）"
+        tests: [unique, not_null]
+      - name: order_qty
+        description: "订购数量"
+      - name: unit_price
+        description: "单价"
+      - name: unit_price_discount
+        description: "单价折扣"
+      - name: line_total
+        description: "行总额"
+      - name: product_id
+        description: "产品ID"
+      - name: special_offer_id
+        description: "促销ID"
+      - name: order_date
+        description: "订单日期"
+      - name: due_date
+        description: "应到货日期"
+      - name: ship_date
+        description: "发货日期"
+      - name: status_code
+        description: "订单状态码"
+      - name: is_online_order
+        description: "是否在线订单"
+      - name: customer_id
+        description: "客户ID"
+      - name: subtotal
+        description: "小计金额"
+      - name: tax_amt
+        description: "税额"
+      - name: freight
+        description: "运费"
+      - name: total_due
+        description: "到期应付总额"
+      - name: product_name
+        description: "产品名称"
+      - name: product_number
+        description: "产品编号"
+      - name: subcategory_name
+        description: "子品类名称"
+      - name: category_name
+        description: "品类名称"
+      - name: offer_description
+        description: "促销描述"
+      - name: discount_pct
+        description: "促销折扣百分比"
+      - name: territory_name
+        description: "销售区域名称"
+      - name: country_region_code
+        description: "国家/地区代码"
+      - name: region_group
+        description: "大区分组"
+      - name: ship_method_name
+        description: "配送方式名称"

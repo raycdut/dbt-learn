@@ -1,29 +1,95 @@
 version: 2
 
 models:
-  - name: stg_customer
-    description: "清洗后的客户数据 — 关联门店或自然人"
+  - name: stg_hr_department
+    description: "清洗后的Hr Department数据"
     columns:
-      - name: customer_id
-        description: "客户ID（主键）"
-        tests: [unique, not_null]
-      - name: person_id
-        description: "自然人ID（关联 stg_person）"
-      - name: store_id
-        description: "门店ID（关联 stg_store）"
-      - name: territory_id
-        description: "销售区域ID（关联 territory 源表）"
-      - name: account_number
-        description: "客户编号"
+      - name: department_id
+        description: "Department Id"
+      - name: name
+        description: "Name"
+      - name: group_name
+        description: "Group Name"
 
-  - name: stg_store
-    description: "清洗后的门店数据"
+  - name: stg_hr_employee_department_history
+    description: "清洗后的Hr Employee Department History数据"
     columns:
       - name: business_entity_id
-        description: "门店ID（主键）"
-        tests: [unique, not_null]
-      - name: store_name
-        description: "门店名称"
+        description: "Business Entity Id"
+      - name: department_id
+        description: "Department Id"
+      - name: shift_id
+        description: "Shift Id"
+      - name: start_date
+        description: "Start Date"
+      - name: end_date
+        description: "End Date"
+
+  - name: stg_hr_employee_pay_history
+    description: "清洗后的Hr Employee Pay History数据"
+    columns:
+      - name: business_entity_id
+        description: "Business Entity Id"
+      - name: rate_change_date
+        description: "Rate Change Date"
+      - name: rate
+        description: "Rate"
+      - name: pay_frequency
+        description: "Pay Frequency"
+
+  - name: stg_hr_employee
+    description: "清洗后的Hr Employee数据"
+    columns:
+      - name: business_entity_id
+        description: "Business Entity Id"
+      - name: national_id_number
+        description: "National Id Number"
+      - name: login_id
+        description: "Login Id"
+      - name: organization_node
+        description: "Organization Node"
+      - name: organization_level
+        description: "Organization Level"
+      - name: job_title
+        description: "Job Title"
+      - name: birth_date
+        description: "Birth Date"
+      - name: marital_status
+        description: "Marital Status"
+      - name: gender
+        description: "Gender"
+      - name: hire_date
+        description: "Hire Date"
+      - name: salaried_flag
+        description: "Salaried Flag"
+      - name: vacation_hours
+        description: "Vacation Hours"
+      - name: sick_leave_hours
+        description: "Sick Leave Hours"
+      - name: current_flag
+        description: "Current Flag"
+
+  - name: stg_hr_job_candidate
+    description: "清洗后的Hr Job Candidate数据"
+    columns:
+      - name: job_candidate_id
+        description: "Job Candidate Id"
+      - name: business_entity_id
+        description: "Business Entity Id"
+      - name: resume
+        description: "Resume"
+
+  - name: stg_hr_shift
+    description: "清洗后的Hr Shift数据"
+    columns:
+      - name: shift_id
+        description: "Shift Id"
+      - name: name
+        description: "Name"
+      - name: start_time
+        description: "Start Time"
+      - name: end_time
+        description: "End Time"
 
   - name: stg_person
     description: "清洗后的自然人数据 — 含全名拼接"
@@ -35,9 +101,9 @@ models:
             description: "业务实体ID（主键）"
             tests: [unique, not_null]
           - name: person_type_code
-            description: "人员类型代码（SC=门店客户/IN=个人客户/EM=员工/VC=供应商联系人）"
+            description: "人员类型代码"
           - name: title
-            description: "称谓（Mr./Ms.等）"
+            description: "称谓"
           - name: first_name
             description: "名"
           - name: middle_name
@@ -45,16 +111,16 @@ models:
           - name: last_name
             description: "姓"
           - name: full_name
-            description: "完整姓名（CONCAT 生成）"
+            description: "完整姓名"
       - v: 1
         columns:
           - name: business_entity_id
             description: "业务实体ID（主键）"
             tests: [unique, not_null]
           - name: person_type
-            description: "人员类型（SC=门店客户/IN=个人客户/EM=员工/VC=供应商联系人）"
+            description: "人员类型代码"
           - name: title
-            description: "称谓（Mr./Ms.等）"
+            description: "称谓"
           - name: first_name
             description: "名"
           - name: middle_name
@@ -62,124 +128,696 @@ models:
           - name: last_name
             description: "姓"
           - name: full_name
-            description: "完整姓名（CONCAT 生成）"
+            description: "完整姓名"
 
-  - name: stg_product
-    description: "清洗后的产品数据 — 含成本/价格/分类"
+  - name: stg_person_address_type
+    description: "清洗后的Person Address Type数据"
     columns:
-      - name: product_id
-        description: "产品ID（主键）"
-        tests: [unique, not_null]
-      - name: product_name
-        description: "产品名称"
-      - name: product_number
-        description: "产品编号"
-      - name: color
-        description: "颜色"
-      - name: safety_stock_level
-        description: "安全库存水平"
-      - name: reorder_point
-        description: "再订购点"
-      - name: standard_cost
-        description: "标准成本"
-      - name: list_price
-        description: "标价"
-      - name: days_to_manufacture
-        description: "制造天数"
-      - name: product_line
-        description: "产品线（M=主/M=山地/R=公路/T=旅游/S=标准）"
-      - name: class
-        description: "等级（H=高/M=中/L=低）"
-      - name: style
-        description: "款式（W=女式/M=男式/U=通用）"
-      - name: product_subcategory_id
-        description: "子品类ID（关联 stg_product_subcategory）"
-      - name: product_model_id
-        description: "产品模型ID"
-      - name: sell_start_date
-        description: "销售开始日期"
-      - name: sell_end_date
-        description: "销售结束日期"
+      - name: address_type_id
+        description: "Address Type Id"
+      - name: name
+        description: "Name"
 
-  - name: stg_product_category
-    description: "清洗后的产品大类品类"
+  - name: stg_person_address
+    description: "清洗后的Person Address数据"
     columns:
-      - name: product_category_id
-        description: "品类ID（主键）"
-        tests: [unique, not_null]
-      - name: category_name
-        description: "品类名称"
+      - name: address_id
+        description: "Address Id"
+      - name: address_line_1
+        description: "Address Line 1"
+      - name: address_line_2
+        description: "Address Line 2"
+      - name: city
+        description: "City"
+      - name: state_province_id
+        description: "State Province Id"
+      - name: postal_code
+        description: "Postal Code"
+      - name: spatial_location
+        description: "Spatial Location"
 
-  - name: stg_product_subcategory
-    description: "清洗后的产品子品类"
+  - name: stg_person_business_entity_address
+    description: "清洗后的Person Business Entity Address数据"
     columns:
-      - name: product_subcategory_id
-        description: "子品类ID（主键）"
-        tests: [unique, not_null]
-      - name: product_category_id
-        description: "品类ID（关联 stg_product_category）"
-      - name: subcategory_name
-        description: "子品类名称"
+      - name: business_entity_id
+        description: "Business Entity Id"
+      - name: address_id
+        description: "Address Id"
+      - name: address_type_id
+        description: "Address Type Id"
 
-  - name: stg_sales_order_header
-    description: "{{ doc('stg_sales_order_header_description') }}"
-    config:
-      tags: ['core']
+  - name: stg_person_business_entity_contact
+    description: "清洗后的Person Business Entity Contact数据"
     columns:
-      - name: sales_order_id
-        description: "订单ID（主键）"
-        tests: [unique, not_null]
-      - name: order_date
-        description: "订单日期"
-      - name: due_date
-        description: "应到货日期"
-      - name: ship_date
-        description: "发货日期"
-      - name: status_code
-        description: "订单状态码（1=进行中/2=已提交/3=已发货/4=已开票/5=已取消）"
-        tests:
-          - accepted_values:
-              values: [1, 2, 3, 4, 5]
-      - name: is_online_order
-        description: "是否在线订单（1=在线/0=门店）"
-      - name: customer_id
-        description: "客户ID（关联 stg_customer）"
+      - name: business_entity_id
+        description: "Business Entity Id"
+      - name: person_id
+        description: "Person Id"
+      - name: contact_type_id
+        description: "Contact Type Id"
+
+  - name: stg_person_business_entity
+    description: "清洗后的Person Business Entity数据"
+    columns:
+      - name: business_entity_id
+        description: "Business Entity Id"
+
+  - name: stg_person_contact_type
+    description: "清洗后的Person Contact Type数据"
+    columns:
+      - name: contact_type_id
+        description: "Contact Type Id"
+      - name: name
+        description: "Name"
+
+  - name: stg_person_country_region
+    description: "清洗后的Person Country Region数据"
+    columns:
+      - name: country_region_code
+        description: "Country Region Code"
+      - name: name
+        description: "Name"
+
+  - name: stg_person_email_address
+    description: "清洗后的Person Email Address数据"
+    columns:
+      - name: business_entity_id
+        description: "Business Entity Id"
+      - name: email_address_id
+        description: "Email Address Id"
+      - name: email_address
+        description: "Email Address"
+
+  - name: stg_person_password
+    description: "清洗后的Person Password数据"
+    columns:
+      - name: business_entity_id
+        description: "Business Entity Id"
+      - name: password_hash
+        description: "Password Hash"
+      - name: password_salt
+        description: "Password Salt"
+
+  - name: stg_person_person_phone
+    description: "清洗后的Person Person Phone数据"
+    columns:
+      - name: business_entity_id
+        description: "Business Entity Id"
+      - name: phone_number
+        description: "Phone Number"
+      - name: phone_number_type_id
+        description: "Phone Number Type Id"
+
+  - name: stg_person_phone_number_type
+    description: "清洗后的Person Phone Number Type数据"
+    columns:
+      - name: phone_number_type_id
+        description: "Phone Number Type Id"
+      - name: name
+        description: "Name"
+
+  - name: stg_person_state_province
+    description: "清洗后的Person State Province数据"
+    columns:
+      - name: state_province_id
+        description: "State Province Id"
+      - name: state_province_code
+        description: "State Province Code"
+      - name: country_region_code
+        description: "Country Region Code"
+      - name: is_only_state_province_flag
+        description: "Is Only State Province Flag"
+      - name: name
+        description: "Name"
       - name: territory_id
-        description: "销售区域ID"
-      - name: ship_method_id
-        description: "配送方式ID"
-      - name: subtotal
-        description: "小计金额"
-      - name: tax_amt
-        description: "税额"
-      - name: freight
-        description: "运费"
-      - name: total_due
-        description: "到期应付总额"
+        description: "Territory Id"
 
-  - name: stg_sales_order_detail
-    description: "清洗后的订单明细行 — 含数量/价格/折扣"
+  - name: stg_person_v1
+    description: "清洗后的Person V1数据"
+    columns:
+      - name: business_entity_id
+        description: "Business Entity Id"
+      - name: person_type
+        description: "Person Type"
+      - name: title
+        description: "Title"
+      - name: first_name
+        description: "First Name"
+      - name: middle_name
+        description: "Middle Name"
+      - name: last_name
+        description: "Last Name"
+      - name: full_name
+        description: "Full Name"
+
+  - name: stg_person_v2
+    description: "清洗后的Person V2数据"
+    columns:
+      - name: business_entity_id
+        description: "Business Entity Id"
+      - name: person_type_code
+        description: "Person Type Code"
+      - name: title
+        description: "Title"
+      - name: first_name
+        description: "First Name"
+      - name: middle_name
+        description: "Middle Name"
+      - name: last_name
+        description: "Last Name"
+      - name: full_name
+        description: "Full Name"
+
+  - name: stg_production_bill_of_materials
+    description: "清洗后的Production Bill Of Materials数据"
+    columns:
+      - name: bill_of_materials_id
+        description: "Bill Of Materials Id"
+      - name: product_assembly_id
+        description: "Product Assembly Id"
+      - name: component_id
+        description: "Component Id"
+      - name: start_date
+        description: "Start Date"
+      - name: end_date
+        description: "End Date"
+      - name: unit_measure_code
+        description: "Unit Measure Code"
+      - name: bom_level
+        description: "Bom Level"
+      - name: per_assembly_qty
+        description: "Per Assembly Qty"
+
+  - name: stg_production_culture
+    description: "清洗后的Production Culture数据"
+    columns:
+      - name: culture_id
+        description: "Culture Id"
+      - name: name
+        description: "Name"
+
+  - name: stg_production_document
+    description: "清洗后的Production Document数据"
+    columns:
+      - name: document_node
+        description: "Document Node"
+      - name: document_level
+        description: "Document Level"
+      - name: title
+        description: "Title"
+      - name: owner
+        description: "Owner"
+      - name: folder_flag
+        description: "Folder Flag"
+      - name: file_name
+        description: "File Name"
+      - name: file_extension
+        description: "File Extension"
+      - name: revision
+        description: "Revision"
+      - name: change_number
+        description: "Change Number"
+      - name: status
+        description: "Status"
+      - name: document_summary
+        description: "Document Summary"
+
+  - name: stg_production_illustration
+    description: "清洗后的Production Illustration数据"
+    columns:
+      - name: illustration_id
+        description: "Illustration Id"
+      - name: diagram
+        description: "Diagram"
+
+  - name: stg_production_location
+    description: "清洗后的Production Location数据"
+    columns:
+      - name: location_id
+        description: "Location Id"
+      - name: name
+        description: "Name"
+      - name: cost_rate
+        description: "Cost Rate"
+      - name: availability
+        description: "Availability"
+
+  - name: stg_production_product_cost_history
+    description: "清洗后的Production Product Cost History数据"
+    columns:
+      - name: product_id
+        description: "Product Id"
+      - name: start_date
+        description: "Start Date"
+      - name: end_date
+        description: "End Date"
+      - name: standard_cost
+        description: "Standard Cost"
+
+  - name: stg_production_product_description
+    description: "清洗后的Production Product Description数据"
+    columns:
+      - name: product_description_id
+        description: "Product Description Id"
+      - name: description
+        description: "Description"
+
+  - name: stg_production_product_document
+    description: "清洗后的Production Product Document数据"
+    columns:
+      - name: product_id
+        description: "Product Id"
+      - name: document_node
+        description: "Document Node"
+
+  - name: stg_production_product_inventory
+    description: "清洗后的Production Product Inventory数据"
+    columns:
+      - name: product_id
+        description: "Product Id"
+      - name: location_id
+        description: "Location Id"
+      - name: shelf
+        description: "Shelf"
+      - name: bin
+        description: "Bin"
+      - name: quantity
+        description: "Quantity"
+
+  - name: stg_production_product_list_price_history
+    description: "清洗后的Production Product List Price History数据"
+    columns:
+      - name: product_id
+        description: "Product Id"
+      - name: start_date
+        description: "Start Date"
+      - name: end_date
+        description: "End Date"
+      - name: list_price
+        description: "List Price"
+
+  - name: stg_production_product_model_illustration
+    description: "清洗后的Production Product Model Illustration数据"
+    columns:
+      - name: product_model_id
+        description: "Product Model Id"
+      - name: illustration_id
+        description: "Illustration Id"
+
+  - name: stg_production_product_model_pd_culture
+    description: "清洗后的Production Product Model Pd Culture数据"
+    columns:
+      - name: product_model_id
+        description: "Product Model Id"
+      - name: product_description_id
+        description: "Product Description Id"
+      - name: culture_id
+        description: "Culture Id"
+
+  - name: stg_production_product_model
+    description: "清洗后的Production Product Model数据"
+    columns:
+      - name: product_model_id
+        description: "Product Model Id"
+      - name: name
+        description: "Name"
+      - name: catalog_description
+        description: "Catalog Description"
+      - name: instructions
+        description: "Instructions"
+
+  - name: stg_production_product_photo
+    description: "清洗后的Production Product Photo数据"
+    columns:
+      - name: product_photo_id
+        description: "Product Photo Id"
+      - name: thumbnail_photo_file_name
+        description: "Thumbnail Photo File Name"
+      - name: large_photo_file_name
+        description: "Large Photo File Name"
+
+  - name: stg_production_product_product_photo
+    description: "清洗后的Production Product Product Photo数据"
+    columns:
+      - name: product_id
+        description: "Product Id"
+      - name: product_photo_id
+        description: "Product Photo Id"
+      - name: is_primary
+        description: "Is Primary"
+
+  - name: stg_production_product_review
+    description: "清洗后的Production Product Review数据"
+    columns:
+      - name: product_review_id
+        description: "Product Review Id"
+      - name: product_id
+        description: "Product Id"
+      - name: reviewer_name
+        description: "Reviewer Name"
+      - name: review_date
+        description: "Review Date"
+      - name: email_address
+        description: "Email Address"
+      - name: rating
+        description: "Rating"
+      - name: comments
+        description: "Comments"
+
+  - name: stg_production_scrap_reason
+    description: "清洗后的Production Scrap Reason数据"
+    columns:
+      - name: scrap_reason_id
+        description: "Scrap Reason Id"
+      - name: scrap_reason_name
+        description: "Scrap Reason Name"
+
+  - name: stg_production_transaction_history_archive
+    description: "清洗后的Production Transaction History Archive数据"
+    columns:
+      - name: transaction_id
+        description: "Transaction Id"
+      - name: product_id
+        description: "Product Id"
+      - name: reference_order_id
+        description: "Reference Order Id"
+      - name: reference_order_line_id
+        description: "Reference Order Line Id"
+      - name: transaction_date
+        description: "Transaction Date"
+      - name: transaction_type
+        description: "Transaction Type"
+      - name: quantity
+        description: "Quantity"
+      - name: actual_cost
+        description: "Actual Cost"
+
+  - name: stg_production_transaction_history
+    description: "清洗后的Production Transaction History数据"
+    columns:
+      - name: transaction_id
+        description: "Transaction Id"
+      - name: product_id
+        description: "Product Id"
+      - name: reference_order_id
+        description: "Reference Order Id"
+      - name: reference_order_line_id
+        description: "Reference Order Line Id"
+      - name: transaction_date
+        description: "Transaction Date"
+      - name: transaction_type
+        description: "Transaction Type"
+      - name: quantity
+        description: "Quantity"
+      - name: actual_cost
+        description: "Actual Cost"
+
+  - name: stg_production_unit_measure
+    description: "清洗后的Production Unit Measure数据"
+    columns:
+      - name: unit_measure_code
+        description: "Unit Measure Code"
+      - name: unit_measure_name
+        description: "Unit Measure Name"
+
+  - name: stg_production_work_order_routing
+    description: "清洗后的Production Work Order Routing数据"
+    columns:
+      - name: work_order_id
+        description: "Work Order Id"
+      - name: product_id
+        description: "Product Id"
+      - name: operation_sequence
+        description: "Operation Sequence"
+      - name: location_id
+        description: "Location Id"
+      - name: scheduled_start_date
+        description: "Scheduled Start Date"
+      - name: scheduled_end_date
+        description: "Scheduled End Date"
+      - name: actual_start_date
+        description: "Actual Start Date"
+      - name: actual_end_date
+        description: "Actual End Date"
+      - name: actual_resource_hrs
+        description: "Actual Resource Hrs"
+      - name: planned_cost
+        description: "Planned Cost"
+      - name: actual_cost
+        description: "Actual Cost"
+
+  - name: stg_production_work_order
+    description: "清洗后的Production Work Order数据"
+    columns:
+      - name: work_order_id
+        description: "Work Order Id"
+      - name: product_id
+        description: "Product Id"
+      - name: order_qty
+        description: "Order Qty"
+      - name: stocked_qty
+        description: "Stocked Qty"
+      - name: scrapped_qty
+        description: "Scrapped Qty"
+      - name: start_date
+        description: "Start Date"
+      - name: end_date
+        description: "End Date"
+      - name: due_date
+        description: "Due Date"
+      - name: scrap_reason_id
+        description: "Scrap Reason Id"
+
+  - name: stg_purchasing_product_vendor
+    description: "清洗后的Purchasing Product Vendor数据"
+    columns:
+      - name: product_id
+        description: "Product Id"
+      - name: business_entity_id
+        description: "Business Entity Id"
+      - name: average_lead_time
+        description: "Average Lead Time"
+      - name: standard_price
+        description: "Standard Price"
+      - name: last_receipt_cost
+        description: "Last Receipt Cost"
+      - name: last_receipt_date
+        description: "Last Receipt Date"
+      - name: min_order_qty
+        description: "Min Order Qty"
+      - name: max_order_qty
+        description: "Max Order Qty"
+      - name: on_order_qty
+        description: "On Order Qty"
+      - name: unit_measure_code
+        description: "Unit Measure Code"
+
+  - name: stg_purchasing_purchase_order_detail
+    description: "清洗后的Purchasing Purchase Order Detail数据"
+    columns:
+      - name: purchase_order_id
+        description: "Purchase Order Id"
+      - name: purchase_order_detail_id
+        description: "Purchase Order Detail Id"
+      - name: due_date
+        description: "Due Date"
+      - name: order_qty
+        description: "Order Qty"
+      - name: product_id
+        description: "Product Id"
+      - name: unit_price
+        description: "Unit Price"
+      - name: line_total
+        description: "Line Total"
+      - name: received_qty
+        description: "Received Qty"
+      - name: rejected_qty
+        description: "Rejected Qty"
+      - name: stocked_qty
+        description: "Stocked Qty"
+
+  - name: stg_purchasing_purchase_order_header
+    description: "清洗后的Purchasing Purchase Order Header数据"
+    columns:
+      - name: purchase_order_id
+        description: "Purchase Order Id"
+      - name: revision_number
+        description: "Revision Number"
+      - name: status
+        description: "Status"
+      - name: employee_id
+        description: "Employee Id"
+      - name: vendor_id
+        description: "Vendor Id"
+      - name: ship_method_id
+        description: "Ship Method Id"
+      - name: order_date
+        description: "Order Date"
+      - name: ship_date
+        description: "Ship Date"
+      - name: sub_total
+        description: "Sub Total"
+      - name: tax_amt
+        description: "Tax Amt"
+      - name: freight
+        description: "Freight"
+      - name: total_due
+        description: "Total Due"
+
+  - name: stg_purchasing_vendor
+    description: "清洗后的Purchasing Vendor数据"
+    columns:
+      - name: business_entity_id
+        description: "Business Entity Id"
+      - name: account_number
+        description: "Account Number"
+      - name: vendor_name
+        description: "Vendor Name"
+      - name: credit_rating
+        description: "Credit Rating"
+      - name: preferred_vendor_status
+        description: "Preferred Vendor Status"
+      - name: active_flag
+        description: "Active Flag"
+      - name: purchasing_web_service_url
+        description: "Purchasing Web Service Url"
+
+  - name: stg_sales_country_region_currency
+    description: "清洗后的Sales Country Region Currency数据"
+    columns:
+      - name: country_region_code
+        description: "Country Region Code"
+      - name: currency_code
+        description: "Currency Code"
+
+  - name: stg_sales_credit_card
+    description: "清洗后的Sales Credit Card数据"
+    columns:
+      - name: credit_card_id
+        description: "Credit Card Id"
+      - name: card_type
+        description: "Card Type"
+      - name: card_number
+        description: "Card Number"
+      - name: exp_month
+        description: "Exp Month"
+      - name: exp_year
+        description: "Exp Year"
+
+  - name: stg_sales_currency_rate
+    description: "清洗后的Sales Currency Rate数据"
+    columns:
+      - name: currency_rate_id
+        description: "Currency Rate Id"
+      - name: currency_rate_date
+        description: "Currency Rate Date"
+
+  - name: stg_sales_currency
+    description: "清洗后的Sales Currency数据"
+    columns:
+      - name: currency_code
+        description: "Currency Code"
+      - name: currency_name
+        description: "Currency Name"
+
+  - name: stg_sales_order_header_sales_reason
+    description: "清洗后的Sales Order Header Sales Reason数据"
     columns:
       - name: sales_order_id
-        description: "订单ID（关联 stg_sales_order_header）"
-        tests:
-          - not_null
-          - relationships:
-              arguments:
-                to: ref('stg_sales_order_header')
-                field: sales_order_id
-      - name: sales_order_detail_id
-        description: "明细行ID（主键）"
-        tests: [unique, not_null]
-      - name: order_qty
-        description: "订购数量"
+        description: "Sales Order Id"
+      - name: sales_reason_id
+        description: "Sales Reason Id"
+
+  - name: stg_sales_person_credit_card
+    description: "清洗后的Sales Person Credit Card数据"
+    columns:
+      - name: business_entity_id
+        description: "Business Entity Id"
+      - name: credit_card_id
+        description: "Credit Card Id"
+
+  - name: stg_sales_sales_person_quota_history
+    description: "清洗后的Sales Sales Person Quota History数据"
+    columns:
+      - name: business_entity_id
+        description: "Business Entity Id"
+      - name: quota_date
+        description: "Quota Date"
+      - name: sales_quota
+        description: "Sales Quota"
+
+  - name: stg_sales_sales_person
+    description: "清洗后的Sales Sales Person数据"
+    columns:
+      - name: business_entity_id
+        description: "Business Entity Id"
+      - name: territory_id
+        description: "Territory Id"
+      - name: sales_quota
+        description: "Sales Quota"
+      - name: bonus
+        description: "Bonus"
+      - name: commission_pct
+        description: "Commission Pct"
+      - name: sales_ytd
+        description: "Sales Ytd"
+      - name: sales_last_year
+        description: "Sales Last Year"
+
+  - name: stg_sales_sales_reason
+    description: "清洗后的Sales Sales Reason数据"
+    columns:
+      - name: sales_reason_id
+        description: "Sales Reason Id"
+      - name: reason_name
+        description: "Reason Name"
+      - name: reason_type
+        description: "Reason Type"
+
+  - name: stg_sales_sales_tax_rate
+    description: "清洗后的Sales Sales Tax Rate数据"
+    columns:
+      - name: sales_tax_rate_id
+        description: "Sales Tax Rate Id"
+      - name: state_province_id
+        description: "State Province Id"
+      - name: tax_type
+        description: "Tax Type"
+      - name: tax_rate
+        description: "Tax Rate"
+      - name: tax_rate_name
+        description: "Tax Rate Name"
+
+  - name: stg_sales_sales_territory_history
+    description: "清洗后的Sales Sales Territory History数据"
+    columns:
+      - name: business_entity_id
+        description: "Business Entity Id"
+      - name: territory_id
+        description: "Territory Id"
+      - name: start_date
+        description: "Start Date"
+      - name: end_date
+        description: "End Date"
+
+  - name: stg_sales_shopping_cart_item
+    description: "清洗后的Sales Shopping Cart Item数据"
+    columns:
+      - name: shopping_cart_item_id
+        description: "Shopping Cart Item Id"
+      - name: shopping_cart_id
+        description: "Shopping Cart Id"
+      - name: quantity
+        description: "Quantity"
       - name: product_id
-        description: "产品ID（关联 stg_product）"
+        description: "Product Id"
+      - name: date_created
+        description: "Date Created"
+
+  - name: stg_sales_special_offer_product
+    description: "清洗后的Sales Special Offer Product数据"
+    columns:
       - name: special_offer_id
-        description: "促销ID"
-      - name: unit_price
-        description: "单价"
-      - name: unit_price_discount
-        description: "单价折扣"
-      - name: line_total
-        description: "行总额"
+        description: "Special Offer Id"
+      - name: product_id
+        description: "Product Id"
